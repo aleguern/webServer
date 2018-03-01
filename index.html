@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>Starter Template - Materialize</title>
+  <!--Import Google Icon Font-->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<body>
+  <nav class="light-blue lighten-1" role="navigation">
+    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Timelapse</a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="#">Navbar Link</a></li>
+      </ul>
+
+      <ul id="nav-mobile" class="side-nav">
+        <li><a href="#">Navbar Link</a></li>
+      </ul>
+      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+    </div>
+  </nav>
+
+  <div class="row">
+     <form class="col s12" method="post" action="/login">
+       <div class="row">
+         <h5>Durée du timelapse</h5>
+         <div class="input-field col s4">
+           <input placeholder="Heures" id="hour" type="number" name="hour" class="validate" min="O" max="24">
+         </div>
+         <div class="input-field col s4">
+           <input placeholder="Minutes" type="number" name="minute" class="validate" min="O" max="60">
+         </div>
+         <div class="input-field col s4">
+           <input placeholder="Secondes" type="number" name="second" class="validate" min="O" max="60">
+         </div>
+       </div>
+         <div class="row">
+         <h5>Durée du timelapse</h5>
+         <div class="input-field col s4"></div>
+         <div class="input-field col s4">
+           <select>
+             <option value="" disabled selected>Choisir</option>
+             <option value="24">24 ips</option>
+             <option value="25">25 ips</option>
+             <option value="30">30 ips</option>
+           </select>
+           <label>Images par seconds</label>
+         </div>
+         <div class="input-field col s4"></div>
+         </div>
+       </div>
+       <div class="row">
+         <div class="input-field col s4"></div>
+         <div class="input-field col s4">
+           <input type="submit" id="submit" value="Submit">
+         </div>
+         <div class="input-field col s4"></div>
+      </div>
+    </br>
+    </br>
+      <h5>Résultat</h5>
+      <div class="row">
+        <div class="input-field col s4">Temps vidéo</div>
+        <div class="input-field col s4">00:00:00</div>
+        <div class="input-field col s4"></div>
+      </div>
+      <div class="row">
+        <div class="input-field col s4">Fin du timelapse</div>
+        <div class="input-field col s4">00:00:00</div>
+        <div class="input-field col s4"></div>
+      </div>
+     </form>
+   </div>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  </body>
+</html>
