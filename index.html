@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
   <title>Starter Template - Materialize</title>
   <!--Import Google Icon Font-->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
-       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 <body>
   <nav class="light-blue lighten-1" role="navigation">
@@ -21,32 +21,27 @@
       <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
     </div>
   </nav>
-
+<br/>
+  <div class="container">
   <div class="row">
-     <form class="col s12" method="post" action="/login">
+     <form class="col s12" method="post" action="/timelapse/login/">
        <div class="row">
          <h5>Durée du timelapse</h5>
          <div class="input-field col s4">
-           <input placeholder="Heures" id="hour" type="number" name="hour" class="validate" min="O" max="24">
+           <input onchange="hours(this.value)" placeholder="Heures" type="number" name="hour" class="validate" min="O" max="24">
          </div>
          <div class="input-field col s4">
-           <input placeholder="Minutes" type="number" name="minute" class="validate" min="O" max="60">
+           <input onchange="minutes(this.value)" placeholder="Minutes" type="number" name="minute" class="validate" min="O" max="60">
          </div>
          <div class="input-field col s4">
-           <input placeholder="Secondes" type="number" name="second" class="validate" min="O" max="60">
+           <input onchange="seconds(this.value)" placeholder="Secondes" type="number" name="second" class="validate" min="O" max="60">
          </div>
        </div>
          <div class="row">
          <h5>Durée du timelapse</h5>
          <div class="input-field col s4"></div>
          <div class="input-field col s4">
-           <select>
-             <option value="" disabled selected>Choisir</option>
-             <option value="24">24 ips</option>
-             <option value="25">25 ips</option>
-             <option value="30">30 ips</option>
-           </select>
-           <label>Images par seconds</label>
+             <input onchange="ips(this.value)" placeholder="Images par secondes" type="number" name="ips" class="validate" min="O" max="60">
          </div>
          <div class="input-field col s4"></div>
          </div>
@@ -54,26 +49,116 @@
        <div class="row">
          <div class="input-field col s4"></div>
          <div class="input-field col s4">
-           <input type="submit" id="submit" value="Submit">
+             <button class="btn waves-effect waves-light" type="submit" id="submit" value="Démarrer" name="action">Démarrer
+           </button>
          </div>
          <div class="input-field col s4"></div>
       </div>
     </br>
     </br>
+
       <h5>Résultat</h5>
       <div class="row">
         <div class="input-field col s4">Temps vidéo</div>
-        <div class="input-field col s4">00:00:00</div>
+        <div class="input-field col s4"><strong id="videoTime">Calcul en cours ...</strong></div>
         <div class="input-field col s4"></div>
       </div>
       <div class="row">
         <div class="input-field col s4">Fin du timelapse</div>
-        <div class="input-field col s4">00:00:00</div>
+        <div class="input-field col s4"><strong id="videoEnd">Calcul en cours ...</strong></div>
         <div class="input-field col s4"></div>
       </div>
      </form>
    </div>
+
+   <script>
+
+    Materialize.toast('I am a toast!', 4000);
+
+       function getEndTime(mHour,mMinute,mSecond) {
+           var date = new Date();
+
+           var hour = date.getHours()+parseInt(mHour);
+           hour = (hour < 10 ? "0" : "") + hour;
+
+           var min  = date.getMinutes()+parseInt(mMinute);
+           min = (min < 10 ? "0" : "") + min;
+
+           var sec  = date.getSeconds()+parseInt(mSecond);
+           sec = (sec < 10 ? "0" : "") + sec;
+
+           return hour + ":" + min + ":" + sec;
+       }
+
+       function getCaptureTime(mHour,mMinute,mSecond,mFPS) {
+           var hour = parseInt(mHour);
+           var min = parseInt(mMinute);
+           var sec = parseInt(mSecond);
+           var fps = parseInt(mFPS);
+           var totalTime = (hour*3600+min*60+sec)/mFPS;
+           hour = Math.round(totalTime / 3600);
+           min = Math.round((totalTime % 3600) / 60);
+           sec = Math.round(totalTime % 60);
+           hour = (hour < 10 ? "0" : "") + hour;
+           min = (min < 10 ? "0" : "") + min;
+           sec = (sec < 10 ? "0" : "") + sec;
+           return hour + ":" + min + ":" + sec;
+       }
+
+       var videoTime = document.getElementById('videoTime');
+       var videoEnd = document.getElementById('videoEnd');
+       var id,hour,minute,second,fps;
+       var mVideoEnd, mCaptureTime;
+
+       function hours(val){
+           id = 1;
+           change(val, id);
+       }
+
+       function minutes(val){
+           id = 2;
+           change(val, id);
+       }
+
+       function seconds(val){
+           id = 3;
+           change(val, id);
+       }
+
+       function ips(val){
+           id = 4;
+           change(val, id);
+       }
+
+       function change(val,id) {
+           switch (id){
+               case 1 :
+                hour = val;
+                break;
+               case 2 :
+                minute = val;
+                break;
+               case 3 :
+                second = val;
+                break;
+               case 4 :
+                fps = val;
+                break;
+            break;
+               default:
+                alert('erreur de saisie');
+           }
+
+           if(hour!=undefined&&minute!=undefined&&second!=undefined&&fps!=undefined){
+               var newLabel = document.createTextNode(getCaptureTime(hour, minute, second, fps));
+               var newLabel2 = document.createTextNode(getEndTime(hour, minute, second));
+               videoEnd.replaceChild(newLabel2, videoEnd.firstChild);
+               videoTime.replaceChild(newLabel, videoTime.firstChild);
+           }
+       }
+    </script>
+
      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
-     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
   </body>
 </html>
