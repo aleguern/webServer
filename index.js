@@ -2,7 +2,11 @@
 
 var express = require('express'); //require express
 var app = express();
+var server = app.listen(8080);
+var io = require('socket.io').listen(server);
 var bodyParser = require('body-parser'); //require bodyParser
+var PythonShell = require('python-shell');
+var pyshell = new PythonShell('script3.py');
 
 app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
@@ -10,7 +14,11 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 }));
 
 app.get('/timelapse',function(req,res){
-  res.sendfile("index.html");
+  res.sendFile("/Users/antoineleguern/Documents/rail/webServer-master/index.html");
+});
+
+app.get('/nipples',function(req,res){
+  res.sendFile("/Users/antoineleguern/Documents/rail/webServer-master/test/index1.html");
 });
 
 app.post('/timelapse/login',function (req, res) {
@@ -19,15 +27,27 @@ app.post('/timelapse/login',function (req, res) {
   var second=req.body.second;
   var ips=req.body.ips;
 
-  var spawn = require("child_process").spawn;
-  var pythonProcess=spawn('python',["hello.py"]);
+  //start.js
+  var spawn = require('child_process').spawn,
+      py    = spawn('python', ['script3.py']),
+      data = [hour,minute,second,ips],
+      dataString = '';
 
-  pythonProcess.stdout.on('data',function(data){
-      console.log('miaou');
-  })
+  py.stdout.on('data', function(data){
+    dataString += data.toString();
+  });
+  py.stdout.on('end', function(){
+    console.log(dataString);
+  });
+  py.stdin.write(JSON.stringify(data));
+  py.stdin.end();
 
-  console.log(hour+" h : "+minute+" m : "+second+" s : "+ips+" ips");
   res.redirect('/timelapse')
 })
 
-app.listen(3000);
+io.on('connection', function(socket){
+  socket.on('chat message', function(msg){
+    io.emit('chat message', msg);
+    console.log('chat message', msg);
+  });
+});

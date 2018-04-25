@@ -26,7 +26,7 @@
   <div class="row">
      <form class="col s12" method="post" action="/timelapse/login/">
        <div class="row">
-         <h5>Durée du timelapse</h5>
+         <h5>Duré du timelapse</h5>
          <div class="input-field col s4">
            <input onchange="hours(this.value)" placeholder="Heures" type="number" name="hour" class="validate" min="O" max="24">
          </div>
@@ -73,7 +73,6 @@
 
    <script>
 
-    Materialize.toast('I am a toast!', 4000);
 
        function getEndTime(mHour,mMinute,mSecond) {
            var date = new Date();
