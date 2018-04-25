@@ -1,0 +1,166 @@
+
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+
+  <meta charset="UTF-8">
+  <link rel="shortcut icon" type="image/x-icon" href="https://static.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico" />
+  <link rel="mask-icon" type="" href="https://static.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111" />
+  <title>nippleJS</title>
+</head>
+
+<style>
+  #left {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 50%;
+        background: rgba(0, 255, 0, 0.1);
+  }
+  #right {
+      position: absolute;
+      right: 0;
+      top: 0;
+      height: 100%;
+      width: 50%;
+      background: rgba(0, 0, 255, 0.1);
+  }
+
+  #debug1 {
+    position : relative;
+    float : right;
+  }
+  #debug2 {
+    position : relative;
+    float : left;
+  }
+</style>
+
+<body>
+    <div id="buttons">
+        <div data-type="static"></div>
+    </div>
+
+      <div id="debug1">
+        <ul>
+          <li class="force">force : <span class='data'></span></li>
+          <class="direction"><li class="angle">angle : <span class='data'></span></li>
+        </li>
+        </ul>
+      </div>
+      <div id="right"></div></br>
+    <br/>
+
+      <div id="buttons2">
+          <div data-type="static"></div>
+      </div>
+        <!--<div id="debug2">-->
+          <ul>
+            <li class="force2">force : <span class='data2'></span></li>
+            <class="direction2"><li class="angle2">angle : <span class='data2'></span></li>
+          </li>
+          </ul>
+        </div>
+        <div id="left"></div>
+      <br/>
+
+        <script src="//static.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js"></script>
+        <script src='//yoannmoinet.github.io/nipplejs/javascripts/nipplejs.js'></script>
+        <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+        <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+
+        <script >
+
+          var s = function(sel) {
+            return document.querySelector(sel);
+          };
+          var sId = function(sel) {
+            return document.getElementById(sel);
+          };
+
+          var joysticks = {
+            static: {
+              zone: document.getElementById('right'),
+              mode: 'static',
+              position: {
+                left: '50%',
+                top: '50%'
+              },
+              color: 'red',
+              size: 200
+            }
+          };
+
+          var joystick;
+          var elDebug = sId('debug1');
+          var elDump = elDebug.querySelector('.dump');
+          var els = {
+            force: elDebug.querySelector('.force .data'),
+            direction : {
+            angle: elDebug.querySelector('.angle .data')}};
+
+          createNipple('static');
+
+          function bindNipple() {
+            joystick.on('start end', function(evt, data) {
+              dump(evt.type);
+              debug(data);
+            }).on('move', function(evt, data) {
+              debug(data);
+            }).on('dir:up plain:up dir:left plain:left dir:down ' +
+                  'plain:down dir:right plain:right',
+                  function(evt, data) {
+            });
+          }
+
+          function createNipple(evt) {
+            var type = typeof evt === 'string' ?
+                evt : evt.target.getAttribute('data-type');
+            joystick = nipplejs.create(joysticks[type]);
+            bindNipple();
+          }
+
+          // Print data into elements
+          function debug(obj) {
+            function parseObj(sub, el) {
+              for (var i in sub) {if (window.CP.shouldStopExecution(1)){break;}
+                if (typeof sub[i] === 'object' && el) {
+                  parseObj(sub[i], el[i]);
+                } else if (el && el[i]) {
+                    console.log(sub[i]);
+                    el[i].innerHTML = sub[i]; //remplace ce qui est écrit dans le debug
+                    var socket = io();
+                    socket.emit('chat message', sub[i]);
+                  if(sub[i]!= 0){
+
+                  }
+                }
+              }
+
+          window.CP.exitedLoop(1);
+
+            }
+            setTimeout(function() {
+              parseObj(obj, els);
+            }, 0);
+          }
+
+          var nbEvents = 0;
+
+          function dump(evt) {
+            setTimeout(function() {
+              if (elDump.children.length > 4) {
+                elDump.removeChild(elDump.firstChild);
+              }
+
+            }, 0);
+          }
+
+        </script>
+
+
+</body>
+
+</html>
