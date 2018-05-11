@@ -18,7 +18,7 @@ def main():
     print lines[2]
     print lines[3]
 
-    fichier = open("pwet.txt", "w")
+    fichier = open("prout.txt", "w")
     for i in lines:
         fichier.write(i)
     fichier.close()

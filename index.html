@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-  <title>Starter Template - Materialize</title>
+  <title>Rail motorisé</title>
   <!--Import Google Icon Font-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -11,14 +11,8 @@
 <body>
   <nav class="light-blue lighten-1" role="navigation">
     <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Timelapse</a>
-      <ul class="right hide-on-med-and-down">
-        <li><a href="#">Navbar Link</a></li>
-      </ul>
+      <a href="/nipples" onmouseover="this.style.background='#AAAAFA';this.style.color='#FFFFAA'">← Joystick</a>
 
-      <ul id="nav-mobile" class="side-nav">
-        <li><a href="#">Navbar Link</a></li>
-      </ul>
-      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
     </div>
   </nav>
 <br/>
@@ -26,7 +20,7 @@
   <div class="row">
      <form class="col s12" method="post" action="/timelapse/login/">
        <div class="row">
-         <h5>Duré du timelapse</h5>
+         <h5>Durée du timelapse</h5>
          <div class="input-field col s4">
            <input onchange="hours(this.value)" placeholder="Heures" type="number" name="hour" class="validate" min="O" max="24">
          </div>
@@ -38,7 +32,7 @@
          </div>
        </div>
          <div class="row">
-         <h5>Durée du timelapse</h5>
+         <h5>Fréquence d'images</h5>
          <div class="input-field col s4"></div>
          <div class="input-field col s4">
              <input onchange="ips(this.value)" placeholder="Images par secondes" type="number" name="ips" class="validate" min="O" max="60">
@@ -72,17 +66,12 @@
    </div>
 
    <script>
-
-
        function getEndTime(mHour,mMinute,mSecond) {
            var date = new Date();
-
            var hour = date.getHours()+parseInt(mHour);
            hour = (hour < 10 ? "0" : "") + hour;
-
            var min  = date.getMinutes()+parseInt(mMinute);
            min = (min < 10 ? "0" : "") + min;
-
            var sec  = date.getSeconds()+parseInt(mSecond);
            sec = (sec < 10 ? "0" : "") + sec;
 

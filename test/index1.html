@@ -7,14 +7,17 @@
   <meta charset="UTF-8">
   <link rel="shortcut icon" type="image/x-icon" href="https://static.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico" />
   <link rel="mask-icon" type="" href="https://static.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111" />
-  <title>nippleJS</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <title>Rail motorisé</title>
 </head>
 
 <style>
+
   #left {
         position: absolute;
         left: 0;
-        top: 0;
+        top: 60px;
         height: 100%;
         width: 50%;
         background: rgba(0, 255, 0, 0.1);
@@ -22,7 +25,7 @@
   #right {
       position: absolute;
       right: 0;
-      top: 0;
+      top: 60px;
       height: 100%;
       width: 50%;
       background: rgba(0, 0, 255, 0.1);
@@ -31,14 +34,23 @@
   #debug1 {
     position : relative;
     float : right;
+    margin-right: 200px;
   }
   #debug2 {
     position : relative;
     float : left;
   }
+
 </style>
 
 <body>
+  <nav class="light-grey lighten-1" role="navigation">
+    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Joystick</a>
+      <a href="/timelapse" onmouseover="this.style.background='#AAAAFA';this.style.color='#FFFFAA'">← Timelapse</a>
+    </div>
+  </nav>
+
+
     <div id="buttons">
         <div data-type="static"></div>
     </div>
@@ -53,19 +65,21 @@
       <div id="right"></div></br>
     <br/>
 
+  
+
       <div id="buttons2">
           <div data-type="static"></div>
       </div>
         <!--<div id="debug2">-->
           <ul>
-            <li class="force2">force : <span class='data2'></span></li>
-            <class="direction2"><li class="angle2">angle : <span class='data2'></span></li>
+            <li class="force2"><span class='data2'></span></li>
+            <class="direction2"><li class="angle2"><span class='data2'></span></li>
           </li>
           </ul>
         </div>
         <div id="left"></div>
       <br/>
-
+      <div class=".dump"></div>
         <script src="//static.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js"></script>
         <script src='//yoannmoinet.github.io/nipplejs/javascripts/nipplejs.js'></script>
         <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
@@ -130,9 +144,11 @@
                   parseObj(sub[i], el[i]);
                 } else if (el && el[i]) {
                     console.log(sub[i]);
+                    console.log(i);
                     el[i].innerHTML = sub[i]; //remplace ce qui est écrit dans le debug
                     var socket = io();
                     socket.emit('chat message', sub[i]);
+
                   if(sub[i]!= 0){
 
                   }
@@ -151,11 +167,7 @@
 
           function dump(evt) {
             setTimeout(function() {
-              if (elDump.children.length > 4) {
-                elDump.removeChild(elDump.firstChild);
-              }
-
-            }, 0);
+          }, 0);
           }
 
         </script>
