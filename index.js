@@ -1,5 +1,3 @@
-//do not forget to "npm install"
-
 var express = require('express'); //require express
 var app = express();
 var server = app.listen(8080); //on computer
@@ -10,24 +8,6 @@ const isNumber = require('is-number'); //number
 var math = require('mathjs');
 //var pyshell = new PythonShell('script3.py');
 var fs = require("fs");
-
-/*
-function python(arg1, arg2, arg3, arg4){
-
-  var spawn = require('child_process').spawn,
-      py    = spawn('python', ['script3.py']),
-      data = [arg1, arg2, arg3, arg4],
-      dataString = '';
-
-  py.stdout.on('data', function(data){
-    dataString += data.toString();
-  });
-  py.stdout.on('end', function(){
-    //console.log(dataString);
-  });
-  py.stdin.write(JSON.stringify(data));
-  py.stdin.end();
-}*/
 
 app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({  // to support URL-encoded bodies
@@ -70,21 +50,12 @@ io.on('connection', function(socket){
 
     console.log(msg);
 
-    if(msg < 4) {
-      if(precisionRound((msg*1000)/2000, 1) > 1.5) number = "1.5"
-      else number = String(precisionRound((msg*1000)/2000, 1));
-      //force = msg;
-      //console.log("force : " + msg)
-    }
-    else if (msg >= 4) angle = msg;
-    //else console.log("direction : " + msg);
-
-    //écriture dans un fichier en node
-    /*
     if(isNumber(msg)) {
-    }
-    else dir = msg;
-    */
+       if(precisionRound((msg*1000)/2000, 1) > 1.5) number = "1.5"
+       else number = String(precisionRound((msg*1000)/2000, 1));
+     }
+     else dir = msg;
+
 
     if(msg == "forward") fs.writeFileSync("moteur1.txt", "1", "UTF-8", "w");
     else if(msg == "backward") fs.writeFileSync("moteur1.txt", "-1", "UTF-8","w");
@@ -92,61 +63,26 @@ io.on('connection', function(socket){
     if(typeof angle !== 'undefined') {
 
       mode = "w"; //writing
+      if(dir == "left"){
+        write = "-1 "+ number;
+        file = "moteur2.txt";
+        }
+      else if(dir == "right"){
+        write = "+1 "+ number;
+        file = "moteur2.txt";
+        }
+      else if(dir == "down") {
+        write = "-1 "+ number;
+        file = "moteur3.txt";
+        }
+      else if(dir == "up"){
+        write = "+1 "+ number;
+        file = "moteur3.txt";
+        }
+      else console.log("error");
 
-      if(angle >= 0 && angle <= 30 || angle >= 330 && angle <= 360){
-        write = "+"+ number;
-        fs.writeFileSync("moteur2.txt", write, "UTF-8",mode);
-      }
-      else if(angle > 30 && angle < 60){
-        write = "+"+ number;
-        fs.writeFileSync("moteur3.txt", write, "UTF-8",mode);
-
-        write = "+"+ number;
-        fs.writeFileSync("moteur2.txt", write, "UTF-8",mode);
-      }
-      else if(angle >= 60 && angle <= 120){
-        write = "+"+ number;
-        fs.writeFileSync("moteur3.txt", write, "UTF-8",mode);
-      }
-      else if(angle > 120 && angle < 150){
-        write = "+"+ number;
-        fs.writeFileSync("moteur3.txt", write, "UTF-8",mode);
-
-        write = "-"+ number;
-        fs.writeFileSync("moteur2.txt", write, "UTF-8",mode);
-      }
-      else if(angle >= 150 && angle <= 210){
-        write = "-"+ number;
-        fs.writeFileSync("moteur2.txt", write, "UTF-8",mode);
-      }
-      else if(angle > 210 && angle < 240){
-        write = "-"+ number;
-        fs.writeFileSync("moteur2.txt", write, "UTF-8",mode);
-
-        write = "+"+ number;
-        fs.writeFileSync("moteur3.txt", write, "UTF-8",mode);
-      }
-      else if(angle >= 240 && angle <= 300) {
-        write = "-"+ number;
-        fs.writeFileSync("moteur3.txt", write, "UTF-8",mode);
-      }
-      else if(angle > 300 && angle < 330) {
-        write = "-"+ number;
-        fs.writeFileSync("moteur3.txt", write, "UTF-8",mode);
-
-        write = "+"+ number;
-        fs.writeFileSync("moteur2.txt", write, "UTF-8",mode);
-      }
-
-      else {
-        console.log("error");
-        console.log(angle);
-      };
+      fs.writeFileSync(file, write, "UTF-8",mode);
     }
-
-    //écriture dans un fichier en py
-    /*if(isNumber(msg)) python(String(Math.trunc(msg*100)),0,0,0);
-    else python(msg,0,0,0);*/
 
   });
 });
