@@ -14,6 +14,50 @@
 
 <style>
 
+  #avancer {
+    margin-left : 20px;
+    margin-right : -40px;
+  }
+
+  #reculer {
+    margin-left: -40px;
+    margin-right : 20px;
+  }
+
+  .button_div {
+    position : relative;
+    margin-top: 40%;
+    height: 50%;
+    margin-left: 10px;
+    margin-right: 20px;
+    width : 100%;
+
+    text-align: center;
+  }
+
+  #button_stop:active{
+    background-color: red;
+  }
+  #button_stop:target{
+    background-color: red;
+  }
+
+  .big_button {
+    width : 400px;
+    height: 100px;
+    margin-top: 20px;
+    font-size: 38px;
+  }
+
+  .big_button:active {
+    font-size: 32px;
+    background-color:  green;
+  }
+
+  .big_button:target {
+    font-size: 32px;
+  }
+
   #left {
         position: absolute;
         left: 0;
@@ -33,51 +77,66 @@
 
   #debug1 {
     position : relative;
-    float : right;
+    width : 300px;
+    height: 90px;
+    text-align: center;
+    background-color: #A99999;
+    margin: 0 auto;
+    margin-top: 10px;
+    padding : 0.1px;
+    position: relative;
   }
-  #debug2 {
-    position : relative;
-    float : left;
+
+  img{
+    width: 30px;
+    height: 30px;
   }
+
 
 </style>
 
 <body>
   <nav class="light-grey lighten-1" role="navigation">
-    <div class="nav-wrapper container"><a id="logo-container" href="/timelapse" class="brand-logo">Joystick</a>
+    <div class="nav-wrapper container">
       <a href="/timelapse" onmouseover="this.style.background='#AAAAFA';this.style.color='#FFFFAA'">← Timelapse</a>
     </div>
   </nav>
+
+  <div id="debug1">
+    <ul>
+      <li class="sens">Sens : <span class='sens2'></span></li>
+      <li class="force">Force : <span class='data'></span></li>
+      <!--<li class="identifier">id : <span class='data'></span></li>-->
+      <li class="direction"><li class="angle">Angle : <span class='data'></span></li>
+    </li>
+    <li class="angle">
+        <ul class="degree">Degre : <span class='data'></span></ul>
+    </li>
+    </ul>
+  </div>
 
     <div id="buttons">
         <div data-type="static"></div>
     </div>
 
-      <div id="debug1" class="right">
-        <ul>
-          <li class="force">force : <span class='data'></span></li>
-          <!--<li class="identifier">id : <span class='data'></span></li>-->
-          <li class="direction"><li class="angle">angle : <span class='data'></span></li>
-        </li>
-        </ul>
-        <li class="angle">
-          <ul>
-            <li class="degree">degree : <span class='data'></span></li>
-          </ul>
-        </li>
-      </div>
+
       <div id="right" class="right"></div></br>
     <br/>
-
-
 
       <div id="left">
       <div id="buttons2">
           <div data-type="static" id = "static"></div>
-
       </div>
-      <button id="button_forward">AVANCER</button>
-      <button id="button_backward">RECULER</button>
+
+
+      <div class="button_div">
+        <button class="big_button" id="button_forward">AVANCER<img id="avancer" src="http://pixsector.com/cache/81183b13/avcc910c4ee5888b858fe.png" alt="miaou"/></button>
+        <button class="big_button" id="button_stop">STOP</button>
+        <button class="big_button" id="button_backward"><img id="reculer" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Ic_keyboard_arrow_left_48px.svg/1024px-Ic_keyboard_arrow_left_48px.svg.png" alt="miaou"/>RECULER</button>
+      </div>
+
+
+
         <!--<div id="debug2">-->
           <ul>
             <li class="force2"><span class='data2'></span></li>
@@ -97,7 +156,9 @@
 
         <script >
 
-
+        if( $('input[name=forward]').is(':checked') ){
+            alert("jQuery c'est super");
+        }
 
           var s = function(sel) {
             return document.querySelector(sel);
@@ -125,7 +186,7 @@
               identifier :1,
               position: {
                 left: '50%',
-                top: '50%'
+                top: '40%'
               },
               color: 'blue',
               size: 300
