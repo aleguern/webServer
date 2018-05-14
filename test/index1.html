@@ -22,7 +22,7 @@
         width: 50%;
         background: rgba(0, 255, 0, 0.1);
   }
-  #right {
+  .right {
       position: absolute;
       right: 0;
       top: 60px;
@@ -34,7 +34,6 @@
   #debug1 {
     position : relative;
     float : right;
-    margin-right: 200px;
   }
   #debug2 {
     position : relative;
@@ -45,30 +44,36 @@
 
 <body>
   <nav class="light-grey lighten-1" role="navigation">
-    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Joystick</a>
+    <div class="nav-wrapper container"><a id="logo-container" href="/timelapse" class="brand-logo">Joystick</a>
       <a href="/timelapse" onmouseover="this.style.background='#AAAAFA';this.style.color='#FFFFAA'">← Timelapse</a>
     </div>
   </nav>
-
 
     <div id="buttons">
         <div data-type="static"></div>
     </div>
 
-      <div id="debug1">
+      <div id="debug1" class="right">
         <ul>
           <li class="force">force : <span class='data'></span></li>
-          <class="direction"><li class="angle">angle : <span class='data'></span></li>
+          <li class="identifier">id : <span class='data'></span></li>
+          <li class="direction"><li class="angle">angle : <span class='data'></span></li>
         </li>
         </ul>
+        <li class="angle">
+          <ul>
+            <li class="degree">degree : <span class='data'></span></li>
+          </ul>
+        </li>
       </div>
-      <div id="right"></div></br>
+      <div id="right" class="right"></div></br>
     <br/>
 
-  
 
+
+      <div id="left">
       <div id="buttons2">
-          <div data-type="static"></div>
+          <div data-type="static" id = "static"></div>
       </div>
         <!--<div id="debug2">-->
           <ul>
@@ -77,15 +82,19 @@
           </li>
           </ul>
         </div>
-        <div id="left"></div>
+      </div>
       <br/>
       <div class=".dump"></div>
+
+
         <script src="//static.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js"></script>
         <script src='//yoannmoinet.github.io/nipplejs/javascripts/nipplejs.js'></script>
         <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
         <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 
         <script >
+
+
 
           var s = function(sel) {
             return document.querySelector(sel);
@@ -95,29 +104,56 @@
           };
 
           var joysticks = {
+
             static: {
               zone: document.getElementById('right'),
               mode: 'static',
+              identifier :0,
               position: {
                 left: '50%',
                 top: '50%'
               },
               color: 'red',
-              size: 200
+              size: 300
+            },
+            semi: {
+              zone: document.getElementById('left'),
+              mode: 'static',
+              identifier :1,
+              position: {
+                left: '50%',
+                top: '50%'
+              },
+              color: 'blue',
+              size: 300
+            },
+            get id() {
+              return this.identifier;
             }
           };
 
+
+
           var joystick;
+
           var elDebug = sId('debug1');
           var elDump = elDebug.querySelector('.dump');
           var els = {
+            identifier : elDebug.querySelector('.identifier .data'),
             force: elDebug.querySelector('.force .data'),
+            angle: {
+              radian: elDebug.querySelector('.angle .radian .data'),
+              degree: elDebug.querySelector('.angle .degree .data')
+            },
             direction : {
             angle: elDebug.querySelector('.angle .data')}};
 
           createNipple('static');
 
+          createNipple('semi');
+
           function bindNipple() {
+
             joystick.on('start end', function(evt, data) {
               dump(evt.type);
               debug(data);
@@ -127,6 +163,7 @@
                   'plain:down dir:right plain:right',
                   function(evt, data) {
             });
+
           }
 
           function createNipple(evt) {
@@ -137,20 +174,20 @@
           }
 
           // Print data into elements
-          function debug(obj) {
+          function debug(obj,evt) {
             function parseObj(sub, el) {
               for (var i in sub) {if (window.CP.shouldStopExecution(1)){break;}
                 if (typeof sub[i] === 'object' && el) {
                   parseObj(sub[i], el[i]);
                 } else if (el && el[i]) {
-                    console.log(sub[i]);
-                    console.log(i);
-                    el[i].innerHTML = sub[i]; //remplace ce qui est écrit dans le debug
-                    var socket = io();
-                    socket.emit('chat message', sub[i]);
+                  //console.log(sub);
+                  //console.log(sub[i]);
+
+                  el[i].innerHTML = sub[i]; //remplace ce qui est écrit dans le debug
+                  var socket = io();
+                  socket.emit('chat message', sub[i]);
 
                   if(sub[i]!= 0){
-
                   }
                 }
               }
@@ -171,6 +208,7 @@
           }
 
         </script>
+
 
 
 </body>
