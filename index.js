@@ -68,95 +68,8 @@ io.on('connection', function(socket){
   socket.on('chat message', function(msg){
     io.emit('chat message', msg);
 
-    //console.log(msg);
-    if(msg < 4) {
-      if(precisionRound((msg*1000)/2000, 1) > 1.5) number = "1.5"
-      else number = String(precisionRound((msg*1000)/2000, 1));
-      //force = msg;
-      //console.log("force : " + msg)
-    }
-    else if (msg >= 4) angle = msg;
-    //else console.log("direction : " + msg);
-
-    //écriture dans un fichier en node
-    /*
-    if(isNumber(msg)) {
-
-    }
-    else dir = msg;
-*/
-    if(typeof angle !== 'undefined') {
-
-      mode = "w"; //writing
-
-      if(angle >= 0 && angle <= 30 || angle >= 330 && angle <= 360){
-        write = "+"+ number;
-        fs.writeFileSync("moteur2.txt", write, "UTF-8",mode);
-      }
-      else if(angle > 30 && angle < 60){
-        write = "+"+ number;
-        fs.writeFileSync("moteur3.txt", write, "UTF-8",mode);
-
-        write = "+"+ number;
-        fs.writeFileSync("moteur2.txt", write, "UTF-8",mode);
-      }
-      else if(angle >= 60 && angle <= 120){
-        write = "+"+ number;
-        fs.writeFileSync("moteur3.txt", write, "UTF-8",mode);
-      }
-      else if(angle > 120 && angle < 150){
-        write = "+"+ number;
-        fs.writeFileSync("moteur3.txt", write, "UTF-8",mode);
-
-        write = "-"+ number;
-        fs.writeFileSync("moteur2.txt", write, "UTF-8",mode);
-      }
-      else if(angle >= 150 && angle <= 210){
-        write = "-"+ number;
-        fs.writeFileSync("moteur2.txt", write, "UTF-8",mode);
-      }
-      else if(angle > 210 && angle < 240){
-        write = "-"+ number;
-        fs.writeFileSync("moteur2.txt", write, "UTF-8",mode);
-
-        write = "+"+ number;
-        fs.writeFileSync("moteur3.txt", write, "UTF-8",mode);
-      }
-      else if(angle >= 240 && angle <= 300) {
-        write = "-"+ number;
-        fs.writeFileSync("moteur3.txt", write, "UTF-8",mode);
-      }
-      else if(angle > 300 && angle < 330) {
-        write = "-"+ number;
-        fs.writeFileSync("moteur3.txt", write, "UTF-8",mode);
-
-        write = "+"+ number;
-        fs.writeFileSync("moteur2.txt", write, "UTF-8",mode);
-      }
-
-      else {
-        console.log("error");
-        console.log(angle);
-      };
-    }
-
-    //écriture dans un fichier en py
-    /*if(isNumber(msg)) python(String(Math.trunc(msg*100)),0,0,0);
-    else python(msg,0,0,0);*/
-
-  });
-});
-
-
-io.on('connection', function(socket){
-  socket.on('chat message2', function(msg){
-    io.emit('chat message2', msg);
-
     console.log(msg);
 
-/*
-
-    //console.log(msg);
     if(msg < 4) {
       if(precisionRound((msg*1000)/2000, 1) > 1.5) number = "1.5"
       else number = String(precisionRound((msg*1000)/2000, 1));
@@ -169,10 +82,13 @@ io.on('connection', function(socket){
     //écriture dans un fichier en node
     /*
     if(isNumber(msg)) {
-
     }
     else dir = msg;
-////////
+    */
+
+    if(msg == "forward") fs.writeFileSync("moteur1.txt", "1", "UTF-8", "w");
+    else if(msg == "backward") fs.writeFileSync("moteur1.txt", "-1", "UTF-8","w");
+
     if(typeof angle !== 'undefined') {
 
       mode = "w"; //writing

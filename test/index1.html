@@ -56,7 +56,7 @@
       <div id="debug1" class="right">
         <ul>
           <li class="force">force : <span class='data'></span></li>
-          <li class="identifier">id : <span class='data'></span></li>
+          <!--<li class="identifier">id : <span class='data'></span></li>-->
           <li class="direction"><li class="angle">angle : <span class='data'></span></li>
         </li>
         </ul>
@@ -74,7 +74,10 @@
       <div id="left">
       <div id="buttons2">
           <div data-type="static" id = "static"></div>
+
       </div>
+      <button id="button_forward">AVANCER</button>
+      <button id="button_backward">RECULER</button>
         <!--<div id="debug2">-->
           <ul>
             <li class="force2"><span class='data2'></span></li>
@@ -132,14 +135,25 @@
             }
           };
 
+          var socket = io();
 
+          document.getElementById('button_forward').onclick = function(){
+            button = "forward";
+            socket.emit('chat message', button);
+
+          }
+          document.getElementById('button_backward').onclick = function(){
+            button = "backward";
+            socket.emit('chat message', button);
+
+          }
 
           var joystick;
 
           var elDebug = sId('debug1');
           var elDump = elDebug.querySelector('.dump');
           var els = {
-            identifier : elDebug.querySelector('.identifier .data'),
+            //identifier : elDebug.querySelector('.identifier .data'),
             force: elDebug.querySelector('.force .data'),
             angle: {
               radian: elDebug.querySelector('.angle .radian .data'),
@@ -150,7 +164,7 @@
 
           createNipple('static');
 
-          createNipple('semi');
+          //createNipple('semi');
 
           function bindNipple() {
 
@@ -173,6 +187,8 @@
             bindNipple();
           }
 
+
+
           // Print data into elements
           function debug(obj,evt) {
             function parseObj(sub, el) {
@@ -184,7 +200,9 @@
                   //console.log(sub[i]);
 
                   el[i].innerHTML = sub[i]; //remplace ce qui est écrit dans le debug
-                  var socket = io();
+
+
+
                   socket.emit('chat message', sub[i]);
 
                   if(sub[i]!= 0){
@@ -206,6 +224,12 @@
             setTimeout(function() {
           }, 0);
           }
+
+
+          var button;
+
+
+
 
         </script>
 
