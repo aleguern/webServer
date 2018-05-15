@@ -5,24 +5,80 @@
 <head>
 
   <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="style.css">
   <link rel="shortcut icon" type="image/x-icon" href="https://static.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico" />
   <link rel="mask-icon" type="" href="https://static.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111" />
-  <title>nippleJS</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <title>Rail motorisé</title>
 </head>
 
 <style>
+
+  #avancer {
+    margin-left : 20px;
+    margin-right : -40px;
+  }
+
+  #reculer {
+    margin-left: -40px;
+    margin-right : 20px;
+  }
+
+
+
+  #button_start:active{
+    background-color: green;
+  }
+  #button_start:target{
+    background-color: green;
+  }
+
+  #button_stop:active{
+    background-color: red;
+  }
+  #button_stop:target{
+    background-color: red;
+  }
+
+  .big_button {
+    width : 400px;
+    height: 100px;
+    margin-top: 20px;
+    font-size: 38px;
+  }
+
+  .big_button:active {
+    font-size: 32px;
+    background-color:  orange;
+  }
+
+  .big_button:target {
+    font-size: 32px;
+  }
+
   #left {
         position: absolute;
         left: 0;
-        top: 0;
+        top: 60px;
         height: 100%;
         width: 50%;
         background: rgba(0, 255, 0, 0.1);
   }
-  #right {
+  .button_div {
+    position : relative;
+    margin-top: 150px;
+    height: 50%;
+    margin-left: 8px;
+    margin-right: 20px;
+    width : 100%;
+    text-align: center;
+  }
+  .right {
       position: absolute;
       right: 0;
-      top: 0;
+      top: 60px;
       height: 100%;
       width: 50%;
       background: rgba(0, 0, 255, 0.1);
@@ -30,41 +86,78 @@
 
   #debug1 {
     position : relative;
-    float : right;
+    width : 300px;
+    height: 70px;
+    text-align: center;
+    background-color: #A99999;
+    margin: 0 auto;
+    margin-top: 10px;
+    font-size: 22px;
+
+    position: relative;
   }
-  #debug2 {
-    position : relative;
-    float : left;
+
+  img{
+    width: 30px;
+    height: 30px;
   }
+
+
 </style>
 
 <body>
+  <nav class="light-grey lighten-1" role="navigation">
+    <div class="nav-wrapper container">
+      <a href="/timelapse" onmouseover="this.style.background='#AAAAFA';this.style.color='#FFFFAA'">← Timelapse</a>
+    </div>
+  </nav>
+
+  <div id="debug1">
+    <ul>
+      <li class="force">Force : <span class='data'></span></li>
+      <li class="direction"><li class="angle">Angle : <span class='data'></span></li>
+    </li>
+    <li class="angle">
+
+    </li>
+    </ul>
+  </div>
+
     <div id="buttons">
         <div data-type="static"></div>
     </div>
 
-      <div id="debug1">
-        <ul>
-          <li class="force">force : <span class='data'></span></li>
-          <class="direction"><li class="angle">angle : <span class='data'></span></li>
-        </li>
-        </ul>
-      </div>
-      <div id="right"></div></br>
+
+      <div id="right" class="right"></div></br>
     <br/>
 
+      <div id="left">
       <div id="buttons2">
-          <div data-type="static"></div>
+          <div data-type="static" id = "static"></div>
       </div>
+
+
+      <div class="button_div">
+        <button class="big_button" id="button_start">START</button>
+        <button class="big_button" id="button_stop">STOP</button>
+
+        <button class="big_button" id="button_forward">AVANCER<img id="avancer" src="http://pixsector.com/cache/81183b13/avcc910c4ee5888b858fe.png" alt="miaou"/></button>
+        <button class="big_button" id="button_backward"><img id="reculer" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Ic_keyboard_arrow_left_48px.svg/1024px-Ic_keyboard_arrow_left_48px.svg.png" alt="miaou"/>RECULER</button>
+      </div>
+
+
+
         <!--<div id="debug2">-->
           <ul>
-            <li class="force2">force : <span class='data2'></span></li>
-            <class="direction2"><li class="angle2">angle : <span class='data2'></span></li>
+            <li class="force2"><span class='data2'></span></li>
+            <class="direction2"><li class="angle2"><span class='data2'></span></li>
           </li>
           </ul>
         </div>
-        <div id="left"></div>
+      </div>
       <br/>
+      <div class=".dump"></div>
+
 
         <script src="//static.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js"></script>
         <script src='//yoannmoinet.github.io/nipplejs/javascripts/nipplejs.js'></script>
@@ -81,22 +174,59 @@
           };
 
           var joysticks = {
+
             static: {
               zone: document.getElementById('right'),
               mode: 'static',
+              identifier :0,
               position: {
                 left: '50%',
                 top: '50%'
               },
               color: 'red',
-              size: 200
+              size: 300
+            },
+            semi: {
+              zone: document.getElementById('left'),
+              mode: 'static',
+              identifier :1,
+              position: {
+                left: '50%',
+                top: '40%'
+              },
+              color: 'blue',
+              size: 300
+            },
+            get id() {
+              return this.identifier;
             }
           };
 
+          var socket = io();
+
+          document.getElementById('button_forward').onclick = function(){
+            button = "forward";
+            socket.emit('chat message', button);
+          }
+          document.getElementById('button_backward').onclick = function(){
+            button = "backward";
+            socket.emit('chat message', button);
+          }
+          document.getElementById('button_stop').onclick = function(){
+            button = "stop";
+            socket.emit('chat message', button);
+          }
+          document.getElementById('button_start').onclick = function(){
+            button = "start";
+            socket.emit('chat message', button);
+          }
+
           var joystick;
+
           var elDebug = sId('debug1');
           var elDump = elDebug.querySelector('.dump');
           var els = {
+            //identifier : elDebug.querySelector('.identifier .data'),
             force: elDebug.querySelector('.force .data'),
             direction : {
             angle: elDebug.querySelector('.angle .data')}};
@@ -104,6 +234,7 @@
           createNipple('static');
 
           function bindNipple() {
+
             joystick.on('start end', function(evt, data) {
               dump(evt.type);
               debug(data);
@@ -113,6 +244,7 @@
                   'plain:down dir:right plain:right',
                   function(evt, data) {
             });
+
           }
 
           function createNipple(evt) {
@@ -123,18 +255,15 @@
           }
 
           // Print data into elements
-          function debug(obj) {
+          function debug(obj,evt) {
             function parseObj(sub, el) {
               for (var i in sub) {if (window.CP.shouldStopExecution(1)){break;}
                 if (typeof sub[i] === 'object' && el) {
                   parseObj(sub[i], el[i]);
                 } else if (el && el[i]) {
-                    console.log(sub[i]);
-                    el[i].innerHTML = sub[i]; //remplace ce qui est écrit dans le debug
-                    var socket = io();
-                    socket.emit('chat message', sub[i]);
+                  el[i].innerHTML = sub[i]; //remplace ce qui est écrit dans le debug
+                  socket.emit('chat message', sub[i]);
                   if(sub[i]!= 0){
-
                   }
                 }
               }
@@ -151,16 +280,9 @@
 
           function dump(evt) {
             setTimeout(function() {
-              if (elDump.children.length > 4) {
-                elDump.removeChild(elDump.firstChild);
-              }
-
-            }, 0);
+          }, 0);
           }
-
+          var button;
         </script>
-
-
-</body>
-
+  </body>
 </html>
