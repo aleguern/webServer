@@ -54,7 +54,12 @@ io.on('connection', function(socket){
     if(msg == "forward") fs.writeFileSync("moteur1.txt", "1", "UTF-8", "w");
     else if(msg == "backward") fs.writeFileSync("moteur1.txt", "-1", "UTF-8","w");
     else if(msg == "start") fs.writeFileSync("mode.txt", "1", "UTF-8","w");
-    else if(msg == "stop") fs.writeFileSync("mode.txt", "0", "UTF-8","w");
+    else if(msg == "stop"){
+      fs.writeFileSync("mode.txt", "0", "UTF-8","w");
+      fs.writeFileSync("moteur1.txt", "0", "UTF-8","w");
+      fs.writeFileSync("moteur2.txt", "0", "UTF-8","w");
+      fs.writeFileSync("moteur3.txt", "0", "UTF-8","w");
+    }
 
     if(typeof dir !== 'undefined') {
 
