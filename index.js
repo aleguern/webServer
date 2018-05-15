@@ -1,7 +1,7 @@
 var express = require('express'); //require express
 var app = express();
-//var server = app.listen(8080); //on computer
-var server = app.listen(788); //on BB
+var server = app.listen(8080); //on computer
+//var server = app.listen(788); //on BB
 var io = require('socket.io').listen(server);
 var bodyParser = require('body-parser'); //require bodyParser
 const isNumber = require('is-number'); //number
@@ -15,13 +15,13 @@ app.use(bodyParser.urlencoded({  // to support URL-encoded bodies
 }));
 
 app.get('/timelapse',function(req,res){
-  //res.sendFile("/Users/antoineleguern/Documents/rail/webServer-master/index.html");
-  res.sendFile("/root/webServer/index.html"); //to read on BB
+  res.sendFile("/Users/antoineleguern/Documents/rail/webServer-master/index.html");
+  //res.sendFile("/root/webServer/index.html"); //to read on BB
 });
 
 app.get('/nipples',function(req,res){
-  //res.sendFile("/Users/antoineleguern/Documents/rail/webServer-master/test/index1.html");
-  res.sendFile("/root/webServer/test/index1.html"); //to read on BB
+  res.sendFile("/Users/antoineleguern/Documents/rail/webServer-master/test/index1.html");
+  //res.sendFile("/root/webServer/test/index1.html"); //to read on BB
 });
 
 app.post('/timelapse/login',function (req, res) {
@@ -55,27 +55,21 @@ io.on('connection', function(socket){
     else if(msg == "backward") fs.writeFileSync("moteur1.txt", "-1", "UTF-8","w");
 
     if(typeof dir !== 'undefined') {
-      mode = "w"; //writing
-      if(dir == "left"){
-        write = "-"+ number;
 
-        file = "moteur2.txt";
+      if(dir == "left"){
+        fs.writeFileSync("moteur2.txt","-"+ number, "UTF-8","w");
         }
       else if(dir == "right"){
-        write = "+"+ number;
-        file = "moteur2.txt";
+        fs.writeFileSync("moteur2.txt","+"+ number, "UTF-8","w");
         }
       else if(dir == "down") {
-        write = "-"+ number;
-        file = "moteur3.txt";
+        fs.writeFileSync("moteur3.txt","-"+ number, "UTF-8","w");
         }
       else if(dir == "up"){
-        write = "+"+ number;
-        file = "moteur3.txt";
+        fs.writeFileSync("moteur3.txt","+"+ number, "UTF-8","w");
         }
-      else //console.log("error");
+      else console.log("error");
 
-      fs.writeFileSync(file, write, "UTF-8",mode);
     }
 
   });
