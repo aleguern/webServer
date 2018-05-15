@@ -26,15 +26,13 @@
     margin-right : 20px;
   }
 
-  .button_div {
-    position : relative;
-    margin-top: 40%;
-    height: 50%;
-    margin-left: 10px;
-    margin-right: 20px;
-    width : 100%;
 
-    text-align: center;
+
+  #button_start:active{
+    background-color: green;
+  }
+  #button_start:target{
+    background-color: green;
   }
 
   #button_stop:active{
@@ -53,7 +51,7 @@
 
   .big_button:active {
     font-size: 32px;
-    background-color:  green;
+    background-color:  orange;
   }
 
   .big_button:target {
@@ -68,6 +66,15 @@
         width: 50%;
         background: rgba(0, 255, 0, 0.1);
   }
+  .button_div {
+    position : relative;
+    margin-top: 150px;
+    height: 50%;
+    margin-left: 8px;
+    margin-right: 20px;
+    width : 100%;
+    text-align: center;
+  }
   .right {
       position: absolute;
       right: 0;
@@ -80,11 +87,12 @@
   #debug1 {
     position : relative;
     width : 300px;
-    height: 90px;
+    height: 70px;
     text-align: center;
     background-color: #A99999;
     margin: 0 auto;
     margin-top: 10px;
+    font-size: 22px;
 
     position: relative;
   }
@@ -106,7 +114,6 @@
 
   <div id="debug1">
     <ul>
-      <li class="sens">Sens : <span class='sens2'></span></li>
       <li class="force">Force : <span class='data'></span></li>
       <li class="direction"><li class="angle">Angle : <span class='data'></span></li>
     </li>
@@ -131,8 +138,10 @@
 
 
       <div class="button_div">
-        <button class="big_button" id="button_forward">AVANCER<img id="avancer" src="http://pixsector.com/cache/81183b13/avcc910c4ee5888b858fe.png" alt="miaou"/></button>
+        <button class="big_button" id="button_start">START</button>
         <button class="big_button" id="button_stop">STOP</button>
+
+        <button class="big_button" id="button_forward">AVANCER<img id="avancer" src="http://pixsector.com/cache/81183b13/avcc910c4ee5888b858fe.png" alt="miaou"/></button>
         <button class="big_button" id="button_backward"><img id="reculer" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Ic_keyboard_arrow_left_48px.svg/1024px-Ic_keyboard_arrow_left_48px.svg.png" alt="miaou"/>RECULER</button>
       </div>
 
@@ -198,12 +207,18 @@
           document.getElementById('button_forward').onclick = function(){
             button = "forward";
             socket.emit('chat message', button);
-
           }
           document.getElementById('button_backward').onclick = function(){
             button = "backward";
             socket.emit('chat message', button);
-
+          }
+          document.getElementById('button_stop').onclick = function(){
+            button = "stop";
+            socket.emit('chat message', button);
+          }
+          document.getElementById('button_start').onclick = function(){
+            button = "start";
+            socket.emit('chat message', button);
           }
 
           var joystick;
