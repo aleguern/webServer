@@ -1,7 +1,7 @@
 var express = require('express'); //require express
 var app = express();
-var server = app.listen(8080); //on computer
-//var server = app.listen(788); //on BB
+//var server = app.listen(8080); //on computer
+var server = app.listen(788); //on BB
 var io = require('socket.io').listen(server);
 var bodyParser = require('body-parser'); //require bodyParser
 const isNumber = require('is-number'); //number
@@ -15,13 +15,13 @@ app.use(bodyParser.urlencoded({  // to support URL-encoded bodies
 }));
 
 app.get('/timelapse',function(req,res){
-  res.sendFile("/Users/antoineleguern/Documents/rail/webServer-master/index.html");
-  //res.sendFile("/root/webserver/index.html"); //to read on BB
+  //res.sendFile("/Users/antoineleguern/Documents/rail/webServer-master/index.html");
+  res.sendFile("/root/webserver/index.html"); //to read on BB
 });
 
 app.get('/nipples',function(req,res){
-  res.sendFile("/Users/antoineleguern/Documents/rail/webServer-master/test/index1.html");
-  //res.sendFile("/root/webserver/test/index1.html"); //to read on BB
+  //res.sendFile("/Users/antoineleguern/Documents/rail/webServer-master/test/index1.html");
+  res.sendFile("/root/webserver/test/index1.html"); //to read on BB
 });
 
 app.post('/timelapse/login',function (req, res) {
@@ -29,9 +29,6 @@ app.post('/timelapse/login',function (req, res) {
   var minute=req.body.minute;
   var second=req.body.second;
   var ips=req.body.ips;
-
-  //écriture dans un fichier en py
-  //python(hour,minute,second,ips);
 
   write = hour*3600+minute*60+second
 
@@ -64,19 +61,19 @@ io.on('connection', function(socket){
 
       mode = "w"; //writing
       if(dir == "left"){
-        write = "-1 "+ number;
+        write = "-"+ number;
         file = "moteur2.txt";
         }
       else if(dir == "right"){
-        write = "+1 "+ number;
+        write = "+"+ number;
         file = "moteur2.txt";
         }
       else if(dir == "down") {
-        write = "-1 "+ number;
+        write = "-"+ number;
         file = "moteur3.txt";
         }
       else if(dir == "up"){
-        write = "+1 "+ number;
+        write = "+"+ number;
         file = "moteur3.txt";
         }
       else console.log("error");
