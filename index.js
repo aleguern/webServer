@@ -16,12 +16,12 @@ app.use(bodyParser.urlencoded({  // to support URL-encoded bodies
 
 app.get('/timelapse',function(req,res){
   //res.sendFile("/Users/antoineleguern/Documents/rail/webServer-master/index.html");
-  res.sendFile("/root/webserver/index.html"); //to read on BB
+  res.sendFile("/root/webServer/index.html"); //to read on BB
 });
 
 app.get('/nipples',function(req,res){
   //res.sendFile("/Users/antoineleguern/Documents/rail/webServer-master/test/index1.html");
-  res.sendFile("/root/webserver/test/index1.html"); //to read on BB
+  res.sendFile("/root/webServer/test/index1.html"); //to read on BB
 });
 
 app.post('/timelapse/login',function (req, res) {
@@ -45,23 +45,20 @@ io.on('connection', function(socket){
   socket.on('chat message', function(msg){
     io.emit('chat message', msg);
 
-    console.log(msg);
-
     if(isNumber(msg)) {
        if(precisionRound((msg*1000)/2000, 1) > 1.5) number = "1.5"
        else number = String(precisionRound((msg*1000)/2000, 1));
      }
      else dir = msg;
 
-
     if(msg == "forward") fs.writeFileSync("moteur1.txt", "1", "UTF-8", "w");
     else if(msg == "backward") fs.writeFileSync("moteur1.txt", "-1", "UTF-8","w");
 
-    if(typeof angle !== 'undefined') {
-
+    if(typeof dir !== 'undefined') {
       mode = "w"; //writing
       if(dir == "left"){
         write = "-"+ number;
+
         file = "moteur2.txt";
         }
       else if(dir == "right"){
@@ -76,7 +73,7 @@ io.on('connection', function(socket){
         write = "+"+ number;
         file = "moteur3.txt";
         }
-      else console.log("error");
+      else //console.log("error");
 
       fs.writeFileSync(file, write, "UTF-8",mode);
     }
