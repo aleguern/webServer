@@ -55,7 +55,8 @@ io.on('connection', function(socket){
       var num = msg.split(" ");
       fs.writeFileSync("moteur1.txt", num[1], "UTF-8", "w");
     }
-    else if(msg == "start") fs.writeFileSync("mode.txt", "1", "UTF-8","w");
+
+    if(msg == "start") fs.writeFileSync("mode.txt", "1", "UTF-8","w");
     else if(msg == "stop"){
       fs.writeFileSync("mode.txt", "0", "UTF-8","w");
       fs.writeFileSync("moteur1.txt", "0", "UTF-8","w");
@@ -64,7 +65,6 @@ io.on('connection', function(socket){
     }
 
     if(typeof dir !== 'undefined') {
-
       if(dir == "left"){
         fs.writeFileSync("moteur2.txt","-"+ number, "UTF-8","w");
         }
@@ -77,9 +77,7 @@ io.on('connection', function(socket){
       else if(dir == "up"){
         fs.writeFileSync("moteur3.txt","+"+ number, "UTF-8","w");
         }
-      else console.log();
-
+      else {}
     }
-
   });
 });
