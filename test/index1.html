@@ -59,8 +59,20 @@
       margin-right: 40px;
     }
 
+    #middle {
+      margin-top: -60px;
+    }
+
+    #button_quit{
+      margin-left: 10px;
+      margin-right: 10px;
+      margin-top: 10px;
+      height: 30px;
+      width: 80px;
+    }
+
     #button_stop{
-      margin-left: 5px;
+      margin-left: 52px;
     }
 
     #button_start:active{
@@ -79,6 +91,7 @@
       width : 150px;
       height: 100px;
       margin-top: 50px;
+      margin-left: 15px;
       font-size: 28px;
     }
     .left_buttons:active {
@@ -149,11 +162,13 @@
           <div data-type="static" id = "static"></div>
       </div>
 
+      <button id="button_quit">QUITTER</button>
 
       <div class="cmd_div">
         <div class="slidecontainer">
           <p><span id="demo"></span> %</p>
-          <input type="range" min="-10" max="10" value="0" class="slider" id="myRange">
+          <input type="range" min="-100" max="100" value="0" class="slider" id="myRange">
+          <p id="middle">|</p>
         </div>
         <button class="left_buttons" id="button_start">START</button>
         <button class="left_buttons" id="button_stop">STOP</button>
@@ -196,6 +211,10 @@
       }
       document.getElementById('button_start').onclick = function(){
         button = "start";
+        socket.emit('chat message', button);
+      }
+      document.getElementById('button_quit').onclick = function(){
+        button = "quitter";
         socket.emit('chat message', button);
       }
 

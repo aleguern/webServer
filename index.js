@@ -63,6 +63,9 @@ io.on('connection', function(socket){
       fs.writeFileSync("moteur2.txt", "0", "UTF-8","w");
       fs.writeFileSync("moteur3.txt", "0", "UTF-8","w");
     }
+    else if(msg == "quitter"){
+      fs.writeFileSync("mode.txt", "-1", "UTF-8","w");
+    }
 
     if(typeof dir !== 'undefined') {
       if(dir == "left"){
