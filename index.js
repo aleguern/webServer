@@ -33,8 +33,6 @@ app.post('/timelapse/login',function (req, res) {
   write = hour*3600+minute*60+second
 
   fs.writeFileSync("", write, "UTF-8","w");
-
-
   res.redirect('/timelapse')
 })
 
@@ -53,8 +51,10 @@ io.on('connection', function(socket){
      }
      else dir = msg;
 
-    if(msg == "forward") fs.writeFileSync("moteur1.txt", "1", "UTF-8", "w");
-    else if(msg == "backward") fs.writeFileSync("moteur1.txt", "-1", "UTF-8","w");
+    if(msg.includes("s")){
+      var num = msg.split(" ");
+      fs.writeFileSync("moteur1.txt", num[1], "UTF-8", "w");
+    }
     else if(msg == "start") fs.writeFileSync("mode.txt", "1", "UTF-8","w");
     else if(msg == "stop"){
       fs.writeFileSync("mode.txt", "0", "UTF-8","w");

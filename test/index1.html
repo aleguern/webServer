@@ -1,285 +1,288 @@
 
 <!DOCTYPE html>
 <html lang="en" >
-
 <head>
-
   <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="style.css">
   <link rel="shortcut icon" type="image/x-icon" href="https://static.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico" />
   <link rel="mask-icon" type="" href="https://static.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
   <title>Rail motorisé</title>
-</head>
+  </head>
 
-<style>
+  <style>
 
-  #avancer {
-    margin-left : 20px;
-    margin-right : -40px;
-  }
-
-  #reculer {
-    margin-left: -40px;
-    margin-right : 20px;
-  }
-
-
-
-  #button_start:active{
-    background-color: green;
-  }
-  #button_start:target{
-    background-color: green;
-  }
-
-  #button_stop:active{
-    background-color: red;
-  }
-  #button_stop:target{
-    background-color: red;
-  }
-
-  .big_button {
-    width : 400px;
-    height: 100px;
-    margin-top: 20px;
-    font-size: 38px;
-  }
-
-  .big_button:active {
-    font-size: 32px;
-    background-color:  orange;
-  }
-
-  .big_button:target {
-    font-size: 32px;
-  }
-
-  #left {
-        position: absolute;
-        left: 0;
-        top: 60px;
-        height: 100%;
-        width: 50%;
-        background: rgba(0, 255, 0, 0.1);
-  }
-  .button_div {
+  .slidecontainer {
     position : relative;
-    margin-top: 150px;
-    height: 50%;
-    margin-left: 8px;
-    margin-right: 20px;
-    width : 100%;
     text-align: center;
-  }
-  .right {
+    width: 100%; /* Width of the outside container */
+    font-size: 40px;
+    }
+    /* The slider itself */
+    .slider {
+        -webkit-appearance: none;  /* Override default CSS styles */
+        appearance: none;
+        width: 150px; /* Full-width */
+        height: 45px; /* Specified height */
+        background: #d3d3d3; /* Grey background */
+        outline: none; /* Remove outline */
+        opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+        -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+        transition: opacity .2s;
+    }
+
+    /* Mouse-over effects */
+    .slider:hover {
+        opacity: 1; /* Fully shown on mouse-over */
+    }
+
+    /* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+    .slider::-webkit-slider-thumb {
+        -webkit-appearance: none; /* Override default look */
+        appearance: none;
+        width: 45px; /* Set a specific slider handle width */
+        height: 45px; /* Slider handle height */
+        background: #4CAF50; /* Green background */
+        cursor: pointer; /* Cursor on hover */
+    }
+
+    .slider::-moz-range-thumb {
+        width: 45px; /* Set a specific slider handle width */
+        height: 45px; /* Slider handle height */
+        background: #4CAF50; /* Green background */
+        cursor: pointer; /* Cursor on hover */
+    }
+
+    .cmd_div {
+      margin-top :140px;
+      margin-left: 50px;
+      margin-right: 40px;
+    }
+
+    #button_stop{
+      margin-left: 5px;
+    }
+
+    #button_start:active{
+      background-color: green;
+    }
+    #button_start:target{
+      background-color: green;
+    }
+    #button_stop:active{
+      background-color: red;
+    }
+    #button_stop:target{
+      background-color: red;
+    }
+    .left_buttons {
+      width : 205px;
+      height: 100px;
+      margin-top: 90px;
+      font-size: 28px;
+    }
+    .left_buttons:active {
+      font-size: 32px;
+      background-color:  orange;
+    }
+    .left_buttons:target {
+      font-size: 32px;
+    }
+    #left {
+      position: absolute;
+      left: 0;
+      top: 60px;
+      height: 100%;
+      width: 50%;
+      background: rgba(0, 255, 0, 0.1);
+    }
+    .right {
       position: absolute;
       right: 0;
       top: 60px;
       height: 100%;
       width: 50%;
       background: rgba(0, 0, 255, 0.1);
-  }
+    }
+    #debug1 {
+      position : relative;
+      width : 300px;
+      height: 70px;
+      text-align: center;
+      background-color: #A99999;
+      margin: 0 auto;
+      margin-top: 10px;
+      font-size: 22px;
+      position: relative;
+    }
+    img{
+      width: 30px;
+      height: 30px;
+    }
+  </style>
 
-  #debug1 {
-    position : relative;
-    width : 300px;
-    height: 70px;
-    text-align: center;
-    background-color: #A99999;
-    margin: 0 auto;
-    margin-top: 10px;
-    font-size: 22px;
+  <body>
+    <nav class="light-grey lighten-1" role="navigation">
+      <div class="nav-wrapper container">
+        <a href="/timelapse" onmouseover="this.style.background='#AAAAFA';this.style.color='#FFFFAA'">← Timelapse</a>
+      </div>
+    </nav>
 
-    position: relative;
-  }
-
-  img{
-    width: 30px;
-    height: 30px;
-  }
-
-
-</style>
-
-<body>
-  <nav class="light-grey lighten-1" role="navigation">
-    <div class="nav-wrapper container">
-      <a href="/timelapse" onmouseover="this.style.background='#AAAAFA';this.style.color='#FFFFAA'">← Timelapse</a>
+    <!-- debug1 is the zone where the joystick's data is written on -->
+    <div id="debug1">
+      <ul>
+        <li class="force">Force : <span class='data'></span></li>
+        <li class="direction"><li class="angle">Angle : <span class='data'></span></li></li>
+        <li class="angle"></li>
+      </ul>
     </div>
-  </nav>
 
-  <div id="debug1">
-    <ul>
-      <li class="force">Force : <span class='data'></span></li>
-      <li class="direction"><li class="angle">Angle : <span class='data'></span></li>
-    </li>
-    <li class="angle">
-
-    </li>
-    </ul>
-  </div>
-
+    <!-- buttons is where the buttons are -->
     <div id="buttons">
-        <div data-type="static"></div>
+      <div data-type="static"></div>
     </div>
 
+    <div id="right" class="right"></div>
 
-      <div id="right" class="right"></div></br>
-    <br/>
-
-      <div id="left">
+    <div id="left">
       <div id="buttons2">
           <div data-type="static" id = "static"></div>
       </div>
 
 
-      <div class="button_div">
-        <button class="big_button" id="button_start">START</button>
-        <button class="big_button" id="button_stop">STOP</button>
-        <button class="big_button" id="button_forward">AVANCER<img id="avancer" src="http://pixsector.com/cache/81183b13/avcc910c4ee5888b858fe.png" alt="miaou"/></button>
-        <button class="big_button" id="button_backward"><img id="reculer" src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Ic_keyboard_arrow_left_48px.svg/1024px-Ic_keyboard_arrow_left_48px.svg.png" alt="miaou"/>RECULER</button>
-      </div>
-
-        <!--<div id="debug2">-->
-          <ul>
-            <li class="force2"><span class='data2'></span></li>
-            <class="direction2"><li class="angle2"><span class='data2'></span></li>
-          </li>
-          </ul>
+      <div class="cmd_div">
+        <div class="slidecontainer">
+          <p><span id="demo"></span> %</p>
+          <input type="range" min="-10" max="10" value="0" class="slider" id="myRange">
         </div>
+        <button class="left_buttons" id="button_start">START</button>
+        <button class="left_buttons" id="button_stop">STOP</button>
       </div>
-      <br/>
-      <div class=".dump"></div>
+    </div>
+
+    <div class=".dump"></div>
+
+    <script src="//static.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js"></script>
+    <script src='//yoannmoinet.github.io/nipplejs/javascripts/nipplejs.js'></script>
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+
+    <script >
+
+// --------- managing the slider side ------------- //
+
+      var slider = document.getElementById("myRange");
+      var output = document.getElementById("demo");
+
+      output.innerHTML = slider.value; // Display the default slider value
+
+      // Update the current slider value (each time you drag the slider handle)
+      slider.oninput = function() {
+          output.innerHTML = this.value;
+          msg = "s "+this.value;
+          socket.emit('chat message', msg);
+      }
+
+// --------- managing the socket side ------------- //
+      var socket = io(); //initialize the socket
 
 
-        <script src="//static.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js"></script>
-        <script src='//yoannmoinet.github.io/nipplejs/javascripts/nipplejs.js'></script>
-        <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
-        <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+// --------- managing the buttons side ------------- //
+// when a button is pressed, the client send data relative to its button to the server
 
-        <script >
+      document.getElementById('button_stop').onclick = function(){
+        button = "stop";
+        socket.emit('chat message', button);
+      }
+      document.getElementById('button_start').onclick = function(){
+        button = "start";
+        socket.emit('chat message', button);
+      }
 
-          var s = function(sel) {
-            return document.querySelector(sel);
-          };
-          var sId = function(sel) {
-            return document.getElementById(sel);
-          };
 
-          var joysticks = {
+// --------- managing the joystick side ------------- //
 
-            static: {
-              zone: document.getElementById('right'),
-              mode: 'static',
-              identifier :0,
-              position: {
-                left: '50%',
-                top: '50%'
-              },
-              color: 'red',
-              size: 300
-            },
-            semi: {
-              zone: document.getElementById('left'),
-              mode: 'static',
-              identifier :1,
-              position: {
-                left: '50%',
-                top: '40%'
-              },
-              color: 'blue',
-              size: 300
-            },
-            get id() {
-              return this.identifier;
-            }
-          };
+      var s = function(sel) {
+        return document.querySelector(sel);
+      };
+      var sId = function(sel) {
+        return document.getElementById(sel);
+      };
 
-          var socket = io();
+      var joysticks = {
+        static: {
+          zone: document.getElementById('right'),
+          mode: 'static',
+          identifier :0,
+          position: {
+            left: '50%',
+            top: '50%'
+          },
+          color: 'red',
+          size: 300
+        },
+      };
 
-          document.getElementById('button_forward').onclick = function(){
-            button = "forward";
-            socket.emit('chat message', button);
-          }
-          document.getElementById('button_backward').onclick = function(){
-            button = "backward";
-            socket.emit('chat message', button);
-          }
-          document.getElementById('button_stop').onclick = function(){
-            button = "stop";
-            socket.emit('chat message', button);
-          }
-          document.getElementById('button_start').onclick = function(){
-            button = "start";
-            socket.emit('chat message', button);
-          }
+      var joystick;
+      var elDebug = sId('debug1');
+      var elDump = elDebug.querySelector('.dump');
+      var els = {
+        force: elDebug.querySelector('.force .data'),
+        direction : {
+        angle: elDebug.querySelector('.angle .data')}};
 
-          var joystick;
+      createNipple('static'); //initialisation of the nipple "static"
 
-          var elDebug = sId('debug1');
-          var elDump = elDebug.querySelector('.dump');
-          var els = {
-            //identifier : elDebug.querySelector('.identifier .data'),
-            force: elDebug.querySelector('.force .data'),
-            direction : {
-            angle: elDebug.querySelector('.angle .data')}};
+      // here we can bind the nipple with the manager's nipple
+      function bindNipple() {
+        joystick.on('start end', function(evt, data) {
+          dump(evt.type);
+          debug(data);
+        }).on('move', function(evt, data) {
+          debug(data);
+        }).on('dir:up plain:up dir:left plain:left dir:down ' +
+              'plain:down dir:right plain:right',
+              function(evt, data) {
+        });
+      }
 
-          createNipple('static');
+      //Creat the nipple and binding it to the manager
+      function createNipple(evt) {
+        var type = typeof evt === 'string' ?
+            evt : evt.target.getAttribute('data-type');
+        joystick = nipplejs.create(joysticks[type]);
+        bindNipple();
+      }
 
-          function bindNipple() {
-
-            joystick.on('start end', function(evt, data) {
-              dump(evt.type);
-              debug(data);
-            }).on('move', function(evt, data) {
-              debug(data);
-            }).on('dir:up plain:up dir:left plain:left dir:down ' +
-                  'plain:down dir:right plain:right',
-                  function(evt, data) {
-            });
-
-          }
-
-          function createNipple(evt) {
-            var type = typeof evt === 'string' ?
-                evt : evt.target.getAttribute('data-type');
-            joystick = nipplejs.create(joysticks[type]);
-            bindNipple();
-          }
-
-          // Print data into elements
-          function debug(obj,evt) {
-            function parseObj(sub, el) {
-              for (var i in sub) {if (window.CP.shouldStopExecution(1)){break;}
-                if (typeof sub[i] === 'object' && el) {
-                  parseObj(sub[i], el[i]);
-                } else if (el && el[i]) {
-                  el[i].innerHTML = sub[i]; //remplace ce qui est écrit dans le debug
-                  socket.emit('chat message', sub[i]);
-                  if(sub[i]!= 0){
-                  }
-                }
+      // Print data onto debug1
+      function debug(obj,evt) {
+        function parseObj(sub, el) {
+          for (var i in sub) {if (window.CP.shouldStopExecution(1)){break;}
+            if (typeof sub[i] === 'object' && el) {
+              parseObj(sub[i], el[i]);
+            } else if (el && el[i]) {
+              el[i].innerHTML = sub[i]; //Here is where the programm is writing onto debug
+              socket.emit('chat message', sub[i]); //send the nipple's data to the server
+              if(sub[i]!= 0){
               }
-
-          window.CP.exitedLoop(1);
-
             }
-            setTimeout(function() {
-              parseObj(obj, els);
-            }, 0);
           }
 
-          var nbEvents = 0;
+      window.CP.exitedLoop(1);
 
-          function dump(evt) {
-            setTimeout(function() {
-          }, 0);
-          }
-          var button;
-        </script>
+        }
+        setTimeout(function() {
+          parseObj(obj, els);
+        }, 0);
+      }
+
+      var nbEvents = 0;
+
+      function dump(evt) {
+        setTimeout(function() {
+      }, 0);
+      }
+      var button;
+      </script>
   </body>
 </html>
