@@ -32,7 +32,9 @@ app.post('/timelapse/login',function (req, res) {
 
   write = hour*3600+minute*60+second
 
-  fs.writeFileSync("timelapse", write, "UTF-8","w");
+  fs.writeFileSync("", write, "UTF-8","w");
+
+
   res.redirect('/timelapse')
 })
 
